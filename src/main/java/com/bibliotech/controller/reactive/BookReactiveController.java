@@ -3,7 +3,9 @@ package com.bibliotech.controller.reactive;
 import com.bibliotech.entity.mongo.BookDocument;
 import com.bibliotech.repository.mongo.BookDocumentRepository;
 import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -36,11 +38,13 @@ public class BookReactiveController {
     }
 
     @PostMapping
-    public Mono<BookDocument> createBook(@RequestBody BookDocument document) {
+    @PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
+    public Mono<BookDocument> createBook(@Valid @RequestBody BookDocument document) {
         return bookDocumentRepository.save(document);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Mono<Void> deleteBook(@PathVariable String id) {
         return bookDocumentRepository.deleteById(id);
     }

@@ -30,7 +30,7 @@ public class AuthService {
         return AuthResponse.builder()
                 .token(token)
                 .username(userDetails.getUsername())
-                .role(userDetails.getAuthorities().iterator().next().getAuthority())
+                .role(userDetails.getAuthorities().stream().findFirst().map(a -> a.getAuthority()).orElse(null))
                 .expiresIn(expiresIn)
                 .build();
     }

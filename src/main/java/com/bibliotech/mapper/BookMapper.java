@@ -8,7 +8,7 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BookMapper {
 
-    @Mapping(target = "authorName", expression = "java(book.getAuthor() != null ? book.getAuthor().getFirstName() + ' ' + book.getAuthor().getLastName() : null)")
+    @Mapping(target = "authorName", expression = "java(book.getAuthor() != null ? book.getAuthor().getFirstName() + \" \" + book.getAuthor().getLastName() : null)")
     @Mapping(target = "categoryName", expression = "java(book.getCategory() != null ? book.getCategory().getName() : null)")
     BookDTO toDTO(Book book);
 
